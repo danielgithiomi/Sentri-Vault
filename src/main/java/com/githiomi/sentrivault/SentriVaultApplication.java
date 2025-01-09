@@ -1,6 +1,6 @@
 package com.githiomi.sentrivault;
 
-import com.githiomi.sentrivault.model.Properties;
+import com.githiomi.sentrivault.data.model.Properties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
