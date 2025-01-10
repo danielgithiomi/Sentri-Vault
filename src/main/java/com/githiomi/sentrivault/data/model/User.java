@@ -1,6 +1,5 @@
 package com.githiomi.sentrivault.data.model;
 
-import com.githiomi.sentrivault.data.enums.Role;
 import com.githiomi.sentrivault.exceptions.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,26 +23,29 @@ public class User {
     private String email;
     private String password;
     private Integer age;
-    private Role role;
+    private String role;
     private Boolean isLocked;
     private String imageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime lastUpdated;
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email, String password, String role) {
         this.userId = generateUserId();
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = generateUsername(firstName, lastName);
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     private static String generateUserId() {
         String base = "USR";
-        USER_COUNTER++;
 
-        if (USER_COUNTER == 100) throw new CustomException("The number of current users exceeds 100");
+        if (USER_COUNTER >= 100 && USER_COUNTER < 1000) {
+            return base + USER_COUNTER;
+            //throw new CustomException("The number of current users exceeds 100");
+        }
 
         return USER_COUNTER < 10
                 ? base + "00" + USER_COUNTER
@@ -54,5 +56,9 @@ public class User {
         if (firstName.length() < 3 || lastName.length() < 3)
             throw new CustomException("The first name and last name must be at least 3 characters");
         return (firstName.substring(0, 3) + lastName.substring(0, 3)).toUpperCase();
+    }
+
+    public static void increaseUserCounter() {
+        USER_COUNTER++;
     }
 }

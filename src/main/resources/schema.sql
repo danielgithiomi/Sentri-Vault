@@ -22,14 +22,15 @@ CREATE TABLE IF NOT EXISTS users
     created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
     last_updated TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (user_id),
+    CONSTRAINT UQ_USER_USERNAME UNIQUE (username),
     CONSTRAINT UQ_USER_EMAIL UNIQUE (email)
 );
 
 CREATE TABLE IF NOT EXISTS roles
 (
     role_id SERIAL NOT NULL,
-    name VARCHAR(10) NOT NULL,
-    description VARCHAR(100) NOT NULL,
+    role_name VARCHAR(10) NOT NULL,
+    role_description VARCHAR(100) NOT NULL,
     PRIMARY KEY (role_id)
 );
 

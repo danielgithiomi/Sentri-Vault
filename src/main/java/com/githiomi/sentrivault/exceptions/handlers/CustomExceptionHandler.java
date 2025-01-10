@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  **/
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class CustomExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<String> customExceptionHandling(CustomException ex) {

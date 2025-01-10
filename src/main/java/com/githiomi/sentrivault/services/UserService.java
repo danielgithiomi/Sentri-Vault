@@ -3,7 +3,6 @@ package com.githiomi.sentrivault.services;
 
 import com.githiomi.sentrivault.data.dto.UserDTO;
 import com.githiomi.sentrivault.data.model.User;
-import org.springframework.stereotype.Service;
 
 /**
  * Author: dangit
