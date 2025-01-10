@@ -1,8 +1,10 @@
-package com.githiomi.sentrivault.data.model;
+package com.githiomi.sentrivault.repositories;
 
 
+import com.githiomi.sentrivault.data.model.Blog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
@@ -14,6 +16,7 @@ import java.util.UUID;
  * Created: 09, Jan 2025
  **/
 
+@Repository
 public interface BlogRepository extends JpaRepository<Blog, UUID> {
 
 //    @Query(value = "SELECT new com.yourpackage.dto.UserRoleDTO(u.userId, u.username, r.name, r.description) \" +\n" +
@@ -22,5 +25,5 @@ public interface BlogRepository extends JpaRepository<Blog, UUID> {
 //            "           \"JOIN ur.role r\"")
     @Query(value = "SELECT u.user_id, u.username, r.name, r.description FROM sentri_vault_schema.user_roles ur JOIN sentri_vault_schema.users u ON ur.user_id = u.user_id JOIN sentri_vault_schema.roles r ON ur.role_id = r.role_id",
     nativeQuery = true)
-    public String getUserAndRole();
+    String getUserAndRole();
 }

@@ -1,6 +1,5 @@
 package com.githiomi.sentrivault.data.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

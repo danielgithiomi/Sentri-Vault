@@ -1,7 +1,7 @@
 package com.githiomi.sentrivault.config;
 
 import com.githiomi.sentrivault.data.model.Blog;
-import com.githiomi.sentrivault.data.model.BlogRepository;
+import com.githiomi.sentrivault.repositories.BlogRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

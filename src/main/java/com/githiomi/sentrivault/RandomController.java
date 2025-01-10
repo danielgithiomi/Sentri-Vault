@@ -1,7 +1,7 @@
 package com.githiomi.sentrivault;
 
 
-import com.githiomi.sentrivault.data.model.BlogRepository;
+import com.githiomi.sentrivault.repositories.BlogRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

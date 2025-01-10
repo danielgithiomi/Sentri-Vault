@@ -1,6 +1,5 @@
 package com.githiomi.sentrivault.config;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +28,6 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
                 .headers(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -38,12 +36,10 @@ public class SecurityConfig {
                         req -> {
                             req.requestMatchers("/api/v1/**").authenticated();
                             req.anyRequest().permitAll();
-                        }
-                )
+                        })
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())
                 .build();
-
     }
 
     @Bean
