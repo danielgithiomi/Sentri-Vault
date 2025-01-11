@@ -12,12 +12,14 @@ public class Queries {
     public static final String CREATE_NEW_USER_QUERY = "INSERT INTO users (user_id, first_name, last_name, username, email, password)" +
             "VALUES (:user_id, :first_name, :last_name, :username, :email, :password);";
 
+    public static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id = :user_id;";
+
     public static final String GET_ROLE_BY_ID_QUERY = "SELECT role_id FROM roles WHERE role_id = :role_id;";
 
-    public static final String GET_ROLE_BY_NAME_QUERY = "SELECT role_id FROM roles WHERE role_name = :role_name;";
+    public static final String GET_ROLE_ID_BY_NAME_QUERY = "SELECT role_id FROM roles WHERE role_name = :role_name;";
 
     public static final String GET_USER_ROLE_BY_USER_ID_QUERY = """
-            SELECT u.user_id, r.name FROM sentri_vault_schema.user_roles ur
+            SELECT r.role_name FROM sentri_vault_schema.user_roles ur
                 JOIN sentri_vault_schema.users u
                 ON ur.user_id = u.user_id
                 JOIN sentri_vault_schema.roles r

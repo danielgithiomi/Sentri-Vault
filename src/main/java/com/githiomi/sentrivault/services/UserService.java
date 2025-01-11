@@ -1,6 +1,5 @@
 package com.githiomi.sentrivault.services;
 
-
 import com.githiomi.sentrivault.data.dto.UserDTO;
 import com.githiomi.sentrivault.data.model.User;
 
@@ -14,8 +13,7 @@ import com.githiomi.sentrivault.data.model.User;
 
 public interface UserService {
 
-    //    UserDTO getUserById(String id);
-    String getUserById(String id);
+    UserDTO getUserById(String id);
 
     UserDTO createUser(User user);
 

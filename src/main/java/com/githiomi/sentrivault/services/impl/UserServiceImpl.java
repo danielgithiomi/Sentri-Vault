@@ -1,8 +1,9 @@
 package com.githiomi.sentrivault.services.impl;
 
 import com.githiomi.sentrivault.data.dto.UserDTO;
-import com.githiomi.sentrivault.data.mapper.UserDTOMapper;
+import com.githiomi.sentrivault.data.enums.Role;
 import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.BlogRepository;
 import com.githiomi.sentrivault.repositories.UserRepository;
 import com.githiomi.sentrivault.repositories.UserRoleRepository;
@@ -31,10 +32,24 @@ public class UserServiceImpl implements UserService {
     private final BlogRepository blogRepository;
 
     @Override
-    public String getUserById(String id) {
+    public UserDTO getUserById(String id) {
         log.info("Getting user with id: {}", id);
-        return this.blogRepository.getUserAndRole();
-//        return UserDTOMapper.toUserDTO(this.userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found with id: " + id)));
+
+        // Get the user corresponding role
+        String roleName = this.userRoleRepository.getUserRole(id);
+        if (roleName.isEmpty()) throw new CustomException("There was no role for the user with id: " + id);
+        Role role = Role.valueOf(roleName);
+
+        // Get the user
+        User user = this.userRepository.findById(id);
+
+        // Convert user to DTO
+        UserDTO userDTO = toUserDTO(user);
+        userDTO.setRole(role);
+
+        log.info("Returning userDTO: {}", userDTO);
+
+        return userDTO;
     }
 
     @Override

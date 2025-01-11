@@ -9,6 +9,8 @@ package com.githiomi.sentrivault.repositories;
  **/
 public interface UserRoleRepository {
 
-    boolean createUserRoleEntry(String userId, String roleName);
+    String getUserRole(String id);
+
+    void createUserRoleEntry(String userId, String roleName);
 
 }

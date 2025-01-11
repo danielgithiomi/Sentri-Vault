@@ -28,7 +28,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    @Query(value = Queries.GET_ROLE_BY_NAME_QUERY, nativeQuery = true)
+    @Query(value = Queries.GET_ROLE_ID_BY_NAME_QUERY, nativeQuery = true)
     public Role getRoleByName(String roleName) {
         return null;
     }

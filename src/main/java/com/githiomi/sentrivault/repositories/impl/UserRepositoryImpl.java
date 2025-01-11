@@ -1,5 +1,6 @@
 package com.githiomi.sentrivault.repositories.impl;
 
+import com.githiomi.sentrivault.data.mapper.UserRowMapper;
 import com.githiomi.sentrivault.data.model.User;
 import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.RoleRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import static com.githiomi.sentrivault.data.model.User.increaseUserCounter;
 import static com.githiomi.sentrivault.data.utils.Queries.CREATE_NEW_USER_QUERY;
+import static com.githiomi.sentrivault.data.utils.Queries.GET_USER_BY_ID_QUERY;
 
 /**
  * Author: dangit
@@ -34,8 +36,15 @@ public class UserRepositoryImpl implements UserRepository {
     private final UserRoleRepository userRoleRepository;
 
     @Override
-    public User createUser(User user) {
+    public User findById(String id) {
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("user_id", id);
 
+        return jdbcTemplate.queryForObject(GET_USER_BY_ID_QUERY, params, new UserRowMapper());
+    }
+
+    @Override
+    public User createUser(User user) {
         try {
 
             // Save new user record to the database

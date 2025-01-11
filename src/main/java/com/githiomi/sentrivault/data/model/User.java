@@ -23,8 +23,10 @@ public class User {
     private String email;
     private String password;
     private Integer age;
+    private Long phoneNumber;
     private String role;
     private Boolean isLocked;
+    private Boolean isVerified;
     private String imageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime lastUpdated;

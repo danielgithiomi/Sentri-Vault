@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users
     is_verified BOOLEAN NOT NULL DEFAULT false,
     is_locked BOOLEAN NOT NULL DEFAULT false,
     image_url VARCHAR(255) DEFAULT 'https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg',
-    created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    created_at TIMESTAMP NOT NULL DEFAULT now(),
     last_updated TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (user_id),
     CONSTRAINT UQ_USER_USERNAME UNIQUE (username),

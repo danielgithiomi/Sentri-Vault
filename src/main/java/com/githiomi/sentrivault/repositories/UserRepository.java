@@ -1,8 +1,6 @@
 package com.githiomi.sentrivault.repositories;
 
 import com.githiomi.sentrivault.data.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * Author: dangit
@@ -13,6 +11,8 @@ import org.springframework.stereotype.Repository;
  **/
 
 public interface UserRepository {
+
+    User findById(String id);
 
     User createUser(User user);
 

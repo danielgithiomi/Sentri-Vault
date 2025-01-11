@@ -8,8 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import static com.githiomi.sentrivault.data.utils.Queries.GET_ROLE_BY_NAME_QUERY;
-import static com.githiomi.sentrivault.data.utils.Queries.SAVE_USER_AND_ROLE_QUERY;
+import static com.githiomi.sentrivault.data.utils.Queries.*;
 
 /**
  * Author: dangit
@@ -27,14 +26,23 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public boolean createUserRoleEntry(String userId, String roleName) {
+    public String getUserRole(String id) {
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("user_id", id);
+        return jdbcTemplate.queryForObject(GET_USER_ROLE_BY_USER_ID_QUERY, params, String.class);
+
+    }
+
+    @Override
+    public void createUserRoleEntry(String userId, String roleName) {
 
         // Get the role from the database
         MapSqlParameterSource roleParams = new MapSqlParameterSource()
                 .addValue("role_name", roleName);
 
         // Get id for the role passed
-        Integer roleId = jdbcTemplate.queryForObject(GET_ROLE_BY_NAME_QUERY, roleParams, Integer.class);
+        Integer roleId = jdbcTemplate.queryForObject(GET_ROLE_ID_BY_NAME_QUERY, roleParams, Integer.class);
 
         if (roleId == null) throw new CustomException("No role with name " + roleName + " was found in the database!");
 
@@ -45,8 +53,6 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 
         // Insert record in user_role table
         jdbcTemplate.update(SAVE_USER_AND_ROLE_QUERY, userRoleParams);
-        return true;
 
     }
-
 }

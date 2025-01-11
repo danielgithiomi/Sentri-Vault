@@ -1,7 +1,6 @@
 package com.githiomi.sentrivault.repositories;
 
 import com.githiomi.sentrivault.data.enums.Role;
-import com.githiomi.sentrivault.data.utils.Queries;
 import org.springframework.data.jpa.repository.Query;
 
 import static com.githiomi.sentrivault.data.utils.Queries.*;
@@ -22,7 +21,7 @@ public interface RoleRepository {
     @Query(value = GET_USER_ROLE_BY_USER_ID_QUERY, nativeQuery = true)
     Role getRoleByUserId(String user_id);
 
-    @Query(value = GET_ROLE_BY_NAME_QUERY, nativeQuery = true)
+    @Query(value = GET_ROLE_ID_BY_NAME_QUERY, nativeQuery = true)
     Role getRoleByName(String name);
 
 }

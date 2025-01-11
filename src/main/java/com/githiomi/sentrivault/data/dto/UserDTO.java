@@ -29,7 +29,9 @@ public class UserDTO {
     private String email;
     private Integer age;
     private Role role;
+    private Long phone;
     private Boolean isLocked;
+    private Boolean isVerified;
     private String imageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime lastUpdated;
