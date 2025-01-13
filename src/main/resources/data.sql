@@ -1,7 +1,7 @@
 SET search_path TO sentri_vault_schema;
 
 INSERT INTO users (user_id, first_name, last_name, username, email, password)
-           VALUES ('USR001', 'Andy', 'Chiffonee', 'ANDCHI', 'andy.chif@mcb.mu', 'jaysen123');
+           VALUES ('USR001', 'ASDWSDF', 'DQFQWQ', 'ANDCHI', 'andy@gmail.com', 'r3454er'
 
 INSERT INTO roles (role_name, role_description)
            VALUES ('USER', 'Minimal Access Rights'),
