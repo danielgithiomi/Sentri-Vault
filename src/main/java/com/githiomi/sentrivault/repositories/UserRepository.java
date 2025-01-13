@@ -12,8 +12,10 @@ import com.githiomi.sentrivault.data.model.User;
 
 public interface UserRepository {
 
-    User findById(String id);
+    User findUserById(String id);
 
     User createUser(User user);
+
+    User updateUser(User user);
 
 }

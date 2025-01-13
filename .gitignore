@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Addtional Files ###
+/development-logs.txt
+/production-logs.txt

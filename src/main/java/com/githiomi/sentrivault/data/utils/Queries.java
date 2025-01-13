@@ -26,6 +26,21 @@ public class Queries {
                 ON ur.role_id = r.role_id
                 WHERE u.user_id = :user_id""";
 
+    public static final String UPDATE_USER_BY_USER_ID_QUERY = """
+            UPDATE users
+            SET first_name = :first_name,
+                last_name = :last_name,
+                username = :username,
+                email = :email,
+                password = :password,
+                age = :age,
+                phone = :phone,
+                is_verified = :isVerified,
+                is_locked = :isLocked,
+                image_url = :imageUrl,
+                last_updated = :lastUpdated
+            WHERE user_id = :userId;""";
+
     public static final String SAVE_USER_AND_ROLE_QUERY = "INSERT INTO user_roles (user_id, role_id) " +
             "VALUES (:user_id, :role_id);";
 

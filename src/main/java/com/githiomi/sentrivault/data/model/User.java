@@ -38,16 +38,13 @@ public class User {
         this.username = generateUsername(firstName, lastName);
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.role = role.toUpperCase();
     }
 
     private static String generateUserId() {
         String base = "USR";
 
-        if (USER_COUNTER >= 100 && USER_COUNTER < 1000) {
-            return base + USER_COUNTER;
-            //throw new CustomException("The number of current users exceeds 100");
-        }
+        if (USER_COUNTER >= 100 && USER_COUNTER < 1000) return base + USER_COUNTER;
 
         return USER_COUNTER < 10
                 ? base + "00" + USER_COUNTER

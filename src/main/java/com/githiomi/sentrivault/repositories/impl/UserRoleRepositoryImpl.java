@@ -4,6 +4,7 @@ import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.UserRoleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,11 +27,15 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public String getUserRole(String id) {
+    public String getUserRole(String userId) {
 
-        MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("user_id", id);
-        return jdbcTemplate.queryForObject(GET_USER_ROLE_BY_USER_ID_QUERY, params, String.class);
+        try {
+            MapSqlParameterSource params = new MapSqlParameterSource().addValue("user_id", userId);
+            return jdbcTemplate.queryForObject(GET_USER_ROLE_BY_USER_ID_QUERY, params, String.class);
+        } catch (EmptyResultDataAccessException e) {
+            log.error("No user found in the database with ID: {} -> {}", userId, e.getMessage());
+            throw new CustomException("No user found in the database with ID: " + userId);
+        }
 
     }
 
@@ -38,8 +43,7 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
     public void createUserRoleEntry(String userId, String roleName) {
 
         // Get the role from the database
-        MapSqlParameterSource roleParams = new MapSqlParameterSource()
-                .addValue("role_name", roleName);
+        MapSqlParameterSource roleParams = new MapSqlParameterSource().addValue("role_name", roleName);
 
         // Get id for the role passed
         Integer roleId = jdbcTemplate.queryForObject(GET_ROLE_ID_BY_NAME_QUERY, roleParams, Integer.class);
@@ -53,6 +57,11 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 
         // Insert record in user_role table
         jdbcTemplate.update(SAVE_USER_AND_ROLE_QUERY, userRoleParams);
+
+    }
+
+    @Override
+    public void updateUserRoleEntry(String userId, String roleName) {
 
     }
 }

@@ -17,4 +17,6 @@ public interface UserService {
 
     UserDTO createUser(User user);
 
+    UserDTO updateUser(String id, User user);
+
 }

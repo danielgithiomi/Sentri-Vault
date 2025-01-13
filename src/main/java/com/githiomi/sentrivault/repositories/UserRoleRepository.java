@@ -13,4 +13,6 @@ public interface UserRoleRepository {
 
     void createUserRoleEntry(String userId, String roleName);
 
+    void updateUserRoleEntry(String userId, String roleName);
+
 }
