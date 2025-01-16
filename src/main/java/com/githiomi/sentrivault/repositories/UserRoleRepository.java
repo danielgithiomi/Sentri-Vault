@@ -9,10 +9,10 @@ package com.githiomi.sentrivault.repositories;
  **/
 public interface UserRoleRepository {
 
-    String getUserRole(String id);
+    String getRoleByUserId(String id);
 
     void createUserRoleEntry(String userId, String roleName);
 
-    void updateUserRoleEntry(String userId, String roleName);
+    void updateUserRoleEntry(String userId, int roleId);
 
 }

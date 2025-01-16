@@ -8,6 +8,7 @@ import com.githiomi.sentrivault.repositories.UserRepository;
 import com.githiomi.sentrivault.repositories.UserRoleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Repository;
 
 import static com.githiomi.sentrivault.data.model.User.increaseUserCounter;
 import static com.githiomi.sentrivault.data.utils.Queries.*;
+import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * Author: dangit
@@ -39,11 +42,15 @@ public class UserRepositoryImpl implements UserRepository {
     public User findUserById(String id) {
 
         try {
+
             MapSqlParameterSource params = new MapSqlParameterSource().addValue("user_id", id);
             return jdbcTemplate.queryForObject(GET_USER_BY_ID_QUERY, params, new UserRowMapper());
+
         } catch (EmptyResultDataAccessException e) {
+
             log.error("No user found in the database with ID: {} -> {}", id, e.getMessage());
-            throw new CustomException("No user found in the database with ID: " + id);
+            throw new CustomException(NOT_FOUND, "No user found in the database with ID: " + id);
+
         }
 
     }
@@ -61,15 +68,17 @@ public class UserRepositoryImpl implements UserRepository {
             log.info("Created new user: {}", user);
         } catch (DuplicateKeyException e) {
             throw new DuplicateKeyException("User with ID: " + user.getUserId() + " already exists in the database >>> " + e.getLocalizedMessage());
-        } catch (Exception e) {
-            throw new CustomException("An error occurred while creating new user: " + user, e);
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(EXPECTATION_FAILED, "The user could not be created as user data does not match database requirements: " + user + " >>> " + e);
+        }catch (Exception e){
+            throw new CustomException(EXPECTATION_FAILED, "An error occurred while creating new user: " + user);
         }
 
         return user;
     }
 
     @Override
-    public User updateUser(User user) {
+    public void updateUser(User user) {
 
         SqlParameterSource input = updateUserSqlParameterSource(user);
         jdbcTemplate.update(UPDATE_USER_BY_USER_ID_QUERY, input);
@@ -92,16 +101,19 @@ public class UserRepositoryImpl implements UserRepository {
                 .addValue("user_id", user.getUserId())
                 .addValue("first_name", user.getFirstName())
                 .addValue("last_name", user.getLastName())
-                .addValue("username", user.getUsername())
+                .addValue("username", verifyUsername(user.getUsername()))
                 .addValue("email", user.getEmail())
-                .addValue("password", user.getPassword())
                 .addValue("age", user.getAge())
                 .addValue("phone", user.getPhoneNumber())
                 .addValue("is_verified", user.getIsVerified())
                 .addValue("is_locked", user.getIsLocked())
                 .addValue("image_url", user.getImageUrl())
-                .addValue("created_at", user.getCreatedAt())
                 .addValue("last_updated", user.getLastUpdated());
+    }
+
+    private String verifyUsername(String username) {
+        if (username.length() != 6) throw new CustomException(EXPECTATION_FAILED, "The username must be 6 characters long");
+        return username.toUpperCase();
     }
 
 }

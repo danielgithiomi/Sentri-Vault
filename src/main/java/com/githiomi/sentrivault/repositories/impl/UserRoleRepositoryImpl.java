@@ -5,11 +5,13 @@ import com.githiomi.sentrivault.repositories.UserRoleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import static com.githiomi.sentrivault.data.utils.Queries.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * Author: dangit
@@ -27,14 +29,18 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public String getUserRole(String userId) {
+    public String getRoleByUserId(String userId) {
 
         try {
+
             MapSqlParameterSource params = new MapSqlParameterSource().addValue("user_id", userId);
             return jdbcTemplate.queryForObject(GET_USER_ROLE_BY_USER_ID_QUERY, params, String.class);
+
         } catch (EmptyResultDataAccessException e) {
+
             log.error("No user found in the database with ID: {} -> {}", userId, e.getMessage());
-            throw new CustomException("No user found in the database with ID: " + userId);
+            throw new CustomException(NOT_FOUND, "No user found in the database with ID: " + userId);
+
         }
 
     }
@@ -48,7 +54,7 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
         // Get id for the role passed
         Integer roleId = jdbcTemplate.queryForObject(GET_ROLE_ID_BY_NAME_QUERY, roleParams, Integer.class);
 
-        if (roleId == null) throw new CustomException("No role with name " + roleName + " was found in the database!");
+        if (roleId == null) throw new CustomException(NOT_FOUND, "No role with name " + roleName + " was found in the database!");
 
         // Create params for entry in user_role table
         MapSqlParameterSource userRoleParams = new MapSqlParameterSource()
@@ -61,7 +67,15 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
     }
 
     @Override
-    public void updateUserRoleEntry(String userId, String roleName) {
+    public void updateUserRoleEntry(String userId, int roleId) {
+
+        // Add Map Parameter values
+        MapSqlParameterSource roleParams = new MapSqlParameterSource()
+                .addValue("user_id", userId)
+                .addValue("role_id", roleId);
+
+        // Insert Updated record
+        jdbcTemplate.update(UPDATE_USER_ROLE_ENTRY_BY_USER_ID_QUERY, roleParams);
 
     }
 }

@@ -1,5 +1,9 @@
 package com.githiomi.sentrivault.exceptions;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
+
 /**
  * Author: dangit
  * Project: SentriVault
@@ -8,14 +12,20 @@ package com.githiomi.sentrivault.exceptions;
  * Created: 10, Jan 2025
  **/
 
-public class CustomException extends RuntimeException{
+@Getter
+@Setter
+public class CustomException extends RuntimeException {
 
-    public CustomException(String message){
+    private HttpStatus status;
+
+    public CustomException(HttpStatus status, String message) {
         super(message);
+        this.status = status;
     }
 
-    public CustomException(String message, Throwable cause){
+    public CustomException(HttpStatus status, String message, Throwable cause) {
         super(message, cause);
+        this.status = status;
     }
 
 }

@@ -10,7 +10,7 @@ package com.githiomi.sentrivault.data.utils;
 public class Queries {
 
     public static final String CREATE_NEW_USER_QUERY = "INSERT INTO users (user_id, first_name, last_name, username, email, password)" +
-            "VALUES (:user_id, :first_name, :last_name, :username, :email, :password);";
+                                                                  "VALUES (:user_id, :first_name, :last_name, :username, :email, :password);";
 
     public static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id = :user_id;";
 
@@ -32,16 +32,20 @@ public class Queries {
                 last_name = :last_name,
                 username = :username,
                 email = :email,
-                password = :password,
                 age = :age,
                 phone = :phone,
-                is_verified = :isVerified,
-                is_locked = :isLocked,
-                image_url = :imageUrl,
-                last_updated = :lastUpdated
-            WHERE user_id = :userId;""";
+                is_verified = :is_verified,
+                is_locked = :is_locked,
+                image_url = :image_url,
+                last_updated = :last_updated
+            WHERE user_id = :user_id;""";
 
     public static final String SAVE_USER_AND_ROLE_QUERY = "INSERT INTO user_roles (user_id, role_id) " +
             "VALUES (:user_id, :role_id);";
+
+    public static final String UPDATE_USER_ROLE_ENTRY_BY_USER_ID_QUERY = """
+            UPDATE user_roles
+            SET role_id = :role_id
+            WHERE user_id = :user_id;""";
 
 }

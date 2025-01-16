@@ -13,13 +13,15 @@ import lombok.Getter;
 @Getter
 public enum Role {
 
-    USER("USER"),
-    ADMIN("ADMIN"),
-    SUPER_USER("SUPER_USER");
+    USER(1, "USER"),
+    ADMIN(2, "ADMIN"),
+    SUPER_USER(3, "SUPER_USER");
 
+    private final Integer id;
     private final String role;
 
-    Role(String role) {
+    Role(Integer id, String role) {
+        this.id = id;
         this.role = role;
     }
 

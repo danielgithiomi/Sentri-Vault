@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+
+import static org.springframework.http.HttpStatus.LENGTH_REQUIRED;
 
 @Data
 @SuperBuilder
@@ -53,7 +56,7 @@ public class User {
 
     private static String generateUsername(String firstName, String lastName) {
         if (firstName.length() < 3 || lastName.length() < 3)
-            throw new CustomException("The first name and last name must be at least 3 characters");
+            throw new CustomException(LENGTH_REQUIRED, "The first name and last name must be at least 3 characters");
         return (firstName.substring(0, 3) + lastName.substring(0, 3)).toUpperCase();
     }
 

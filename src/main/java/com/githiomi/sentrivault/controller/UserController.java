@@ -29,13 +29,13 @@ public class UserController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<UserDTO> addUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
         return ResponseEntity.status(201).body(this.userService.createUser(user));
     }
 
     @PutMapping(value = "/{user_id}")
     public ResponseEntity<UserDTO> updateUser(@RequestBody User user, @PathVariable("user_id") String id) {
-        return ResponseEntity.status(200).body(this.userService.updateUser(id, user));
+        return ResponseEntity.status(200).body(this.userService.updateUser(id.toUpperCase(), user));
     }
 
 }

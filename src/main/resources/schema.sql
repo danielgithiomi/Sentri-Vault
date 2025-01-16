@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS sentri_vault_schema;
 
-SET TIMEZONE = '+4:00';
+SET TIMEZONE TO '+04';
 
 SET search_path TO sentri_vault_schema;
 
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users
     last_name VARCHAR(50) NOT NULL,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    password VARCHAR(20) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     age INTEGER DEFAULT NULL,
     phone BIGINT DEFAULT NULL,
     is_verified BOOLEAN NOT NULL DEFAULT false,
