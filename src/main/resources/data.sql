@@ -1,12 +1,16 @@
 SET search_path TO sentri_vault_schema;
 
 INSERT INTO users (user_id, first_name, last_name, username, email, password)
-           VALUES ('USR001', 'Test', 'Test', 'TESTES', 'test@test.com', 'test@123');
+VALUES ('USR001', 'SUPER', '', 'SUPER', 'super@sentrivault.com', 'super@123');
+
+INSERT INTO users (user_id, first_name, last_name, username, email, password)
+VALUES ('USR002', 'ADMIN', '', 'ADMIN', 'admin@sentrivault.com', 'admin@123');
 
 INSERT INTO roles (role_name, role_description)
-           VALUES ('USER', 'Minimal Access Rights'),
-                  ('ADMIN', 'Medium Access Rights'),
-                  ('SUPER_USER', 'Full Access Rights');
+VALUES ('SUPER_USER', 'Full Access Rights'),
+       ('ADMIN', 'Medium Access Rights'),
+       ('USER', 'Minimal Access Rights');
 
 INSERT INTO user_roles (user_id, role_id)
-                VALUES ('USR001', 1);
+VALUES ('USR001', 1),
+       ('USR002', 2);

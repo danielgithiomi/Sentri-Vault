@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.LENGTH_REQUIRED;
 @AllArgsConstructor
 public class User {
 
-    private static int USER_COUNTER = 2;
+    private static int USER_COUNTER = 3;
 
     private String userId;
     private String firstName;

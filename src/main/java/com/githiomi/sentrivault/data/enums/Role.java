@@ -13,9 +13,9 @@ import lombok.Getter;
 @Getter
 public enum Role {
 
-    USER(1, "USER"),
+    SUPER_USER(1, "SUPER_USER"),
     ADMIN(2, "ADMIN"),
-    SUPER_USER(3, "SUPER_USER");
+    USER(3, "USER");
 
     private final Integer id;
     private final String role;
