@@ -64,11 +64,8 @@ public class UserServiceImpl implements UserService {
         // Get Role Object
         Role role = getRoleEnumFromString(user.getRole());
 
-        // Create user in the database
-        this.userRepository.createUser(newUser);
-
-        // Retrieve the saved user
-        UserDTO dto = toUserDTO(this.userRepository.findUserById(newUser.getUserId()));
+        // Create and retrieve the saved user
+        UserDTO dto = toUserDTO(this.userRepository.createUser(newUser));
 
         // Set UserDTO role
         dto.setRole(role);
@@ -112,6 +109,14 @@ public class UserServiceImpl implements UserService {
         int roleId = getRoleEnumFromString(newRole).getId();
 
         this.userRoleRepository.updateUserRoleEntry(userId, roleId);
+
+    }
+
+    @Override
+    public void deleteUserById(String id) {
+
+        // Confirm user exits in the database
+        this.userRepository.deleteUser(id);
 
     }
 }

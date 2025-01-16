@@ -40,6 +40,10 @@ public class Queries {
                 last_updated = :last_updated
             WHERE user_id = :user_id;""";
 
+    public static final String DELETE_USER_BY_ID_QUERY = """
+            DELETE FROM users WHERE user_id = :user_id;
+            """;
+
     public static final String SAVE_USER_AND_ROLE_QUERY = "INSERT INTO user_roles (user_id, role_id) " +
             "VALUES (:user_id, :role_id);";
 

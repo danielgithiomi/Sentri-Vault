@@ -65,7 +65,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             // Increase user counter
             increaseUserCounter();
-            log.info("Created new user: {}", user);
+
         } catch (DuplicateKeyException e) {
             throw new DuplicateKeyException("User with ID: " + user.getUserId() + " already exists in the database >>> " + e.getLocalizedMessage());
         } catch (DataIntegrityViolationException e) {
@@ -74,7 +74,8 @@ public class UserRepositoryImpl implements UserRepository {
             throw new CustomException(EXPECTATION_FAILED, "An error occurred while creating new user: " + user);
         }
 
-        return user;
+        // Get created user and return
+        return this.findUserById(user.getUserId());
     }
 
     @Override
@@ -116,4 +117,15 @@ public class UserRepositoryImpl implements UserRepository {
         return username.toUpperCase();
     }
 
+    @Override
+    public void deleteUser(String id) {
+
+        // Confirm that user exists
+        User user = this.findUserById(id);
+
+        // If found then delete
+        MapSqlParameterSource deleteParams = new MapSqlParameterSource().addValue("user_id", user.getUserId());
+        jdbcTemplate.update(DELETE_USER_BY_ID_QUERY, deleteParams);
+
+    }
 }
