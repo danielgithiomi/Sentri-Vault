@@ -2,6 +2,9 @@ package com.githiomi.sentrivault.repositories;
 
 import com.githiomi.sentrivault.data.model.User;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Author: dangit
  * Project: SentriVault
@@ -11,6 +14,8 @@ import com.githiomi.sentrivault.data.model.User;
  **/
 
 public interface UserRepository {
+
+    List<User> findAllUsers();
 
     User findUserById(String id);
 

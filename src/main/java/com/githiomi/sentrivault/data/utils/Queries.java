@@ -12,6 +12,8 @@ public class Queries {
     public static final String CREATE_NEW_USER_QUERY = "INSERT INTO users (user_id, first_name, last_name, username, email, password)" +
                                                                   "VALUES (:user_id, :first_name, :last_name, :username, :email, :password);";
 
+public static final String GET_ALL_USERS_QUERY = "SELECT * FROM users";
+
     public static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id = :user_id;";
 
     public static final String GET_ROLE_BY_ID_QUERY = "SELECT role_id FROM roles WHERE role_id = :role_id;";

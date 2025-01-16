@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 /**
@@ -26,19 +30,24 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping(value = "")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.status(OK.value()).body(this.userService.getAllUsers());
+    }
+
     @GetMapping(value = "/{user_id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("user_id") String id) {
-        return ResponseEntity.status(200).body(this.userService.getUserById(id.toUpperCase()));
+        return ResponseEntity.status(OK.value()).body(this.userService.getUserById(id.toUpperCase()));
     }
 
     @PostMapping(value = "")
     public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
-        return ResponseEntity.status(201).body(this.userService.createUser(user));
+        return ResponseEntity.status(CREATED.value()).body(this.userService.createUser(user));
     }
 
     @PutMapping(value = "/{user_id}")
     public ResponseEntity<UserDTO> updateUser(@RequestBody User user, @PathVariable("user_id") String id) {
-        return ResponseEntity.status(200).body(this.userService.updateUser(id.toUpperCase(), user));
+        return ResponseEntity.status(OK.value()).body(this.userService.updateUser(id.toUpperCase(), user));
     }
 
     @DeleteMapping(value = "/{user_id}")

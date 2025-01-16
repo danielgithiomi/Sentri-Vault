@@ -2,24 +2,23 @@ package com.githiomi.sentrivault.services.impl;
 
 import com.githiomi.sentrivault.data.dto.UserDTO;
 import com.githiomi.sentrivault.data.enums.Role;
+import com.githiomi.sentrivault.data.mapper.UserDTOMapper;
 import com.githiomi.sentrivault.data.model.User;
-import com.githiomi.sentrivault.data.utils.Methods;
-import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.BlogRepository;
 import com.githiomi.sentrivault.repositories.UserRepository;
 import com.githiomi.sentrivault.repositories.UserRoleRepository;
 import com.githiomi.sentrivault.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 import static com.githiomi.sentrivault.data.mapper.UserDTOMapper.toUserDTO;
 import static com.githiomi.sentrivault.data.utils.Methods.getRoleEnumFromString;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * Author: dangit
@@ -38,6 +37,11 @@ public class UserServiceImpl implements UserService {
     private final UserRoleRepository userRoleRepository;
     private final BlogRepository blogRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return this.userRepository.findAllUsers().stream().map(UserDTOMapper::toUserDTO).toList().reversed();
+    }
 
     @Override
     public UserDTO getUserById(String id) {
@@ -79,7 +83,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(String userId, User user) {
 
-        log.info("Updating user with id {} and data {}", userId, user);
         // Check if user exists in the database
         User foundDBUser = this.userRepository.findUserById(userId);
 

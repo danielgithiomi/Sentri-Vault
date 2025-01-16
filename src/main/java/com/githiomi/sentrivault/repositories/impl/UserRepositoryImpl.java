@@ -16,6 +16,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import static com.githiomi.sentrivault.data.model.User.increaseUserCounter;
 import static com.githiomi.sentrivault.data.utils.Queries.*;
 import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
@@ -39,18 +41,19 @@ public class UserRepositoryImpl implements UserRepository {
     private final UserRoleRepository userRoleRepository;
 
     @Override
+    public List<User> findAllUsers() {
+        return this.jdbcTemplate.query(GET_ALL_USERS_QUERY, new UserRowMapper());
+    }
+
+    @Override
     public User findUserById(String id) {
 
         try {
-
             MapSqlParameterSource params = new MapSqlParameterSource().addValue("user_id", id);
             return jdbcTemplate.queryForObject(GET_USER_BY_ID_QUERY, params, new UserRowMapper());
-
         } catch (EmptyResultDataAccessException e) {
-
             log.error("No user found in the database with ID: {} -> {}", id, e.getMessage());
             throw new CustomException(NOT_FOUND, "No user found in the database with ID: " + id);
-
         }
 
     }
@@ -80,10 +83,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(User user) {
-
         SqlParameterSource input = updateUserSqlParameterSource(user);
         jdbcTemplate.update(UPDATE_USER_BY_USER_ID_QUERY, input);
-
     }
 
     // Custom Methods

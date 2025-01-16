@@ -3,6 +3,8 @@ package com.githiomi.sentrivault.services;
 import com.githiomi.sentrivault.data.dto.UserDTO;
 import com.githiomi.sentrivault.data.model.User;
 
+import java.util.List;
+
 /**
  * Author: dangit
  * Project: SentriVault
@@ -12,6 +14,8 @@ import com.githiomi.sentrivault.data.model.User;
  **/
 
 public interface UserService {
+
+    List<UserDTO> getAllUsers();
 
     UserDTO getUserById(String id);
 
