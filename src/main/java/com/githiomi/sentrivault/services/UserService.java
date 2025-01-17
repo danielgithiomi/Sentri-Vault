@@ -25,4 +25,6 @@ public interface UserService {
 
     void deleteUserById(String id);
 
+    UserDTO verifyUserById(String id);
+
 }

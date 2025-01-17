@@ -4,6 +4,7 @@ import com.githiomi.sentrivault.data.dto.UserDTO;
 import com.githiomi.sentrivault.data.enums.Role;
 import com.githiomi.sentrivault.data.mapper.UserDTOMapper;
 import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.BlogRepository;
 import com.githiomi.sentrivault.repositories.UserRepository;
 import com.githiomi.sentrivault.repositories.UserRoleRepository;
@@ -14,11 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 import static com.githiomi.sentrivault.data.mapper.UserDTOMapper.toUserDTO;
 import static com.githiomi.sentrivault.data.utils.Methods.getRoleEnumFromString;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 /**
  * Author: dangit
@@ -121,5 +122,29 @@ public class UserServiceImpl implements UserService {
         // Confirm user exits in the database
         this.userRepository.deleteUser(id);
 
+    }
+
+    @Override
+    public UserDTO verifyUserById(String id) {
+
+        // Confirm user exists in database
+        User user = this.userRepository.findUserById(id);
+
+        // Get verification status
+        if (user.getIsVerified())
+            throw new CustomException(BAD_REQUEST, "The user with ID " + id + " is already verified!");
+
+        // Update database with new verification
+        User updatedUser = this.userRepository.verifyUserById(id);
+
+        // Convert updated user to DTO
+        UserDTO dto = toUserDTO(updatedUser);
+
+        // Get associated role from DB
+        String userRole = this.userRoleRepository.getRoleByUserId(id);
+
+        dto.setRole(getRoleEnumFromString(userRole));
+
+        return dto;
     }
 }

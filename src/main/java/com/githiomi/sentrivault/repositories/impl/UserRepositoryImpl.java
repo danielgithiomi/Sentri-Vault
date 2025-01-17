@@ -16,12 +16,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.githiomi.sentrivault.data.model.User.increaseUserCounter;
 import static com.githiomi.sentrivault.data.utils.Queries.*;
-import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 /**
  * Author: dangit
@@ -73,7 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
             throw new DuplicateKeyException("User with ID: " + user.getUserId() + " already exists in the database >>> " + e.getLocalizedMessage());
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(EXPECTATION_FAILED, "The user could not be created as user data does not match database requirements: " + user + " >>> " + e);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new CustomException(EXPECTATION_FAILED, "An error occurred while creating new user: " + user);
         }
 
@@ -114,7 +117,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private String verifyUsername(String username) {
-        if (username.length() != 6) throw new CustomException(EXPECTATION_FAILED, "The username must be 6 characters long");
+        if (username.length() != 6)
+            throw new CustomException(EXPECTATION_FAILED, "The username must be 6 characters long");
         return username.toUpperCase();
     }
 
@@ -128,5 +132,27 @@ public class UserRepositoryImpl implements UserRepository {
         MapSqlParameterSource deleteParams = new MapSqlParameterSource().addValue("user_id", user.getUserId());
         jdbcTemplate.update(DELETE_USER_BY_ID_QUERY, deleteParams);
 
+    }
+
+    @Override
+    public User verifyUserById(String userId) {
+        boolean verified = true;
+        LocalDateTime now = LocalDateTime.now();
+
+        try {
+
+            MapSqlParameterSource params = new MapSqlParameterSource()
+                    .addValue("is_verified", verified)
+                    .addValue("last_updated", now)
+                    .addValue("user_id", userId);
+
+            jdbcTemplate.update(UPDATE_USER_VERIFICATION_BY_ID_QUERY, params);
+
+        } catch (Exception e) {
+            log.error("An error occurred while verifying user by id: {} >>> {}", userId, e.getMessage());
+            throw new CustomException(INTERNAL_SERVER_ERROR, "Error verifying the user with ID: " + userId);
+        }
+
+        return this.findUserById(userId);
     }
 }

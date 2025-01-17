@@ -25,4 +25,6 @@ public interface UserRepository {
 
     void deleteUser(String id);
 
+    User verifyUserById(String userId);
+
 }

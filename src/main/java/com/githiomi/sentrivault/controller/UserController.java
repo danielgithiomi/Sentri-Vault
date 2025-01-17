@@ -57,4 +57,10 @@ public class UserController {
         return ResponseEntity.status(OK.value()).body("The user with id " + id + " was deleted successfully.");
     }
 
+    @PutMapping(value = "/verify/{user_id}")
+    public ResponseEntity<UserDTO> verifyUser(@PathVariable("user_id") String id) {
+        id = id.toUpperCase();
+        return ResponseEntity.status(CREATED.value()).body(this.userService.verifyUserById(id));
+    }
+
 }
