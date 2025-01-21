@@ -16,10 +16,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import static com.githiomi.sentrivault.data.model.User.increaseUserCounter;
@@ -39,9 +36,13 @@ import static org.springframework.http.HttpStatus.*;
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    //
+    private static final int ID_TYPE = 1;
+    private static final int USERNAME_TYPE = 2;
+
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
     public List<User> findAllUsers() {
@@ -51,12 +52,31 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findUserById(String id) {
 
+        MapSqlParameterSource params = new MapSqlParameterSource().addValue("user_id", id);
+        return getUserFromDB(ID_TYPE, id, GET_USER_BY_ID_QUERY, params);
+
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+
+        MapSqlParameterSource params = new MapSqlParameterSource().addValue("username", username);
+        return getUserFromDB(USERNAME_TYPE, username, GET_USER_BY_USERNAME_QUERY, params);
+
+    }
+
+    private User getUserFromDB(int type, String identifier, String query, MapSqlParameterSource params) {
+
         try {
-            MapSqlParameterSource params = new MapSqlParameterSource().addValue("user_id", id);
-            return jdbcTemplate.queryForObject(GET_USER_BY_ID_QUERY, params, new UserRowMapper());
+            return jdbcTemplate.queryForObject(query, params, new UserRowMapper());
         } catch (EmptyResultDataAccessException e) {
-            log.error("No user found in the database with ID: {} -> {}", id, e.getMessage());
-            throw new CustomException(NOT_FOUND, "No user found in the database with ID: " + id);
+
+            String error = type == ID_TYPE
+                    ? "No user found in the database with ID: " + identifier + " -> " + e.getMessage()
+                    : "No user found with username " + identifier + " -> " + e.getMessage();
+
+            log.error(error);
+            throw new CustomException(NOT_FOUND, error);
         }
 
     }

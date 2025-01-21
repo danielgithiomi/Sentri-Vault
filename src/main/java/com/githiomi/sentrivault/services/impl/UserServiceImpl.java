@@ -20,6 +20,7 @@ import java.util.List;
 import static com.githiomi.sentrivault.data.mapper.UserDTOMapper.toUserDTO;
 import static com.githiomi.sentrivault.data.utils.Methods.getRoleEnumFromString;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * Author: dangit
@@ -35,8 +36,8 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserRoleRepository userRoleRepository;
     private final BlogRepository blogRepository;
+    private final UserRoleRepository userRoleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
@@ -59,6 +60,17 @@ public class UserServiceImpl implements UserService {
         userDTO.setRole(role);
 
         return userDTO;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+
+        User user = this.userRepository.findUserByUsername(username);
+
+        if (user == null) throw new CustomException(NOT_FOUND, "No user found with username " + username);
+
+        return user;
+
     }
 
     @Override
@@ -95,7 +107,6 @@ public class UserServiceImpl implements UserService {
         if (!currentRole.equalsIgnoreCase(newRole)) updateDbUserRole(userId, newRole);
 
         // Update the lastUpdate field
-        user.setCreatedAt(foundDBUser.getCreatedAt());
         user.setLastUpdated(LocalDateTime.now());
 
         // Update user record in DB and return DTO

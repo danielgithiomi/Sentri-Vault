@@ -18,6 +18,8 @@ public class Queries {
 
     public static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id = :user_id;";
 
+    public static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = :username;";
+
     public static final String GET_ROLE_BY_ID_QUERY = "SELECT role_id FROM roles WHERE role_id = :role_id;";
 
     public static final String GET_ROLE_ID_BY_NAME_QUERY = "SELECT role_id FROM roles WHERE role_name = :role_name;";
@@ -50,6 +52,12 @@ public class Queries {
             UPDATE users
             SET is_verified = :is_verified,
                 last_updated = :last_updated
+            WHERE user_id = :user_id;
+            """;
+
+    public static final String UPDATE_USER_IS_LOCKED_QUERY = """
+            UPDATE users
+            SET is_locked = :is_locked
             WHERE user_id = :user_id;
             """;
 

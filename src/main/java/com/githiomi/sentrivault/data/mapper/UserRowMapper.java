@@ -27,6 +27,7 @@ public class UserRowMapper implements RowMapper<User> {
                 .username(result.getString("username"))
                 .username(result.getString("username"))
                 .email(result.getString("email"))
+                .password(result.getString("password"))
                 .age(result.getInt("age"))
                 .phoneNumber(result.getObject("phone", Long.class))
                 .isVerified(result.getBoolean("is_verified"))
