@@ -33,5 +33,4 @@ build/
 .vscode/
 
 ### Addtional Files ###
-/development-logs.txt
-/production-logs.txt
+/logs/*

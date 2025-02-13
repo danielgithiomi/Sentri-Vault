@@ -3,7 +3,7 @@ package com.githiomi.sentrivault.services.impl;
 import com.githiomi.sentrivault.data.dto.UserDTO;
 import com.githiomi.sentrivault.data.enums.Role;
 import com.githiomi.sentrivault.data.mapper.UserDTOMapper;
-import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.data.domain.User;
 import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.BlogRepository;
 import com.githiomi.sentrivault.repositories.UserRepository;
@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
     private final BlogRepository blogRepository;
     private final UserRoleRepository userRoleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(User user) {
         // Password Encode
-        User newUser = new User(user.getFirstName(), user.getLastName(), user.getEmail(), passwordEncoder.encode(user.getPassword()), user.getRole());
+        User newUser = new User(user.getFirstName(), user.getLastName(), user.getEmail(), bcryptPasswordEncoder.encode(user.getPassword()), user.getRole());
 
         // Get Role Object
         Role role = getRoleEnumFromString(user.getRole());
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
         String currentRole = this.userRoleRepository.getRoleByUserId(userId);
         String newRole = user.getRole();
 
-        // Check and update user role
+        // Check and update a user role
         if (!currentRole.equalsIgnoreCase(newRole)) updateDbUserRole(userId, newRole);
 
         // Update the lastUpdate field
@@ -138,7 +139,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO verifyUserById(String id) {
 
-        // Confirm user exists in database
+        // Confirm user exists in a database
         User user = this.userRepository.findUserById(id);
 
         // Get verification status
@@ -151,7 +152,7 @@ public class UserServiceImpl implements UserService {
         // Convert updated user to DTO
         UserDTO dto = toUserDTO(updatedUser);
 
-        // Get associated role from DB
+        // Get an associated role from DB
         String userRole = this.userRoleRepository.getRoleByUserId(id);
 
         dto.setRole(getRoleEnumFromString(userRole));

@@ -1,11 +1,10 @@
-package com.githiomi.sentrivault.data.model;
+package com.githiomi.sentrivault.data.domain;
 
 import com.githiomi.sentrivault.exceptions.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 

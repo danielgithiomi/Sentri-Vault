@@ -1,4 +1,4 @@
-package com.githiomi.sentrivault.data.model;
+package com.githiomi.sentrivault.data.records;
 
 /**
  * Author: dangit

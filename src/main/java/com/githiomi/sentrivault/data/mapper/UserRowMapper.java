@@ -1,12 +1,11 @@
 package com.githiomi.sentrivault.data.mapper;
 
-import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.data.domain.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Author: dangit

@@ -1,6 +1,6 @@
 package com.githiomi.sentrivault.services;
 
-import com.githiomi.sentrivault.data.model.LoginCredentials;
+import com.githiomi.sentrivault.data.records.LoginCredentials;
 
 /**
  * Author: dangit

@@ -1,15 +1,13 @@
 package com.githiomi.sentrivault.controller;
 
 import com.githiomi.sentrivault.data.dto.UserDTO;
-import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.data.domain.User;
 import com.githiomi.sentrivault.services.UserService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -23,6 +21,7 @@ import static org.springframework.http.HttpStatus.OK;
  * Created: 10, Jan 2025
  **/
 
+@CrossOrigin(origins = {"http://localhost:5173"})
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/v1/users")
@@ -30,8 +29,12 @@ public class UserController {
 
     private final UserService userService;
 
+    @Value("${API_KEY}")
+    private static String API_KEY;
+
     @GetMapping(value = "")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
+        System.out.println("API KEY: " + API_KEY);
         return ResponseEntity.status(OK.value()).body(this.userService.getAllUsers());
     }
 

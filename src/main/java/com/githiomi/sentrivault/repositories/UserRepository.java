@@ -1,8 +1,7 @@
 package com.githiomi.sentrivault.repositories;
 
-import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.data.domain.User;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

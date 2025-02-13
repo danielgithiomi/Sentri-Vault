@@ -1,14 +1,13 @@
 package com.githiomi.sentrivault.services.impl;
 
-import com.githiomi.sentrivault.data.model.LoginCredentials;
-import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.data.records.LoginCredentials;
+import com.githiomi.sentrivault.data.domain.User;
 import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.AuthenticationRepository;
 import com.githiomi.sentrivault.services.AuthenticationService;
 import com.githiomi.sentrivault.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

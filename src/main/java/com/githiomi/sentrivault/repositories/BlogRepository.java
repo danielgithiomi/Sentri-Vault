@@ -1,7 +1,7 @@
 package com.githiomi.sentrivault.repositories;
 
 
-import com.githiomi.sentrivault.data.model.Blog;
+import com.githiomi.sentrivault.data.domain.Blog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

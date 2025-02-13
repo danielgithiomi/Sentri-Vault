@@ -1,6 +1,5 @@
 package com.githiomi.sentrivault.repositories.impl;
 
-import com.githiomi.sentrivault.data.model.User;
 import com.githiomi.sentrivault.data.utils.Queries;
 import com.githiomi.sentrivault.repositories.AuthenticationRepository;
 import com.githiomi.sentrivault.repositories.UserRepository;

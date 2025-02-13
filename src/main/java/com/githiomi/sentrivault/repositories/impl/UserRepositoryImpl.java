@@ -1,7 +1,7 @@
 package com.githiomi.sentrivault.repositories.impl;
 
 import com.githiomi.sentrivault.data.mapper.UserRowMapper;
-import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.data.domain.User;
 import com.githiomi.sentrivault.exceptions.CustomException;
 import com.githiomi.sentrivault.repositories.RoleRepository;
 import com.githiomi.sentrivault.repositories.UserRepository;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.githiomi.sentrivault.data.model.User.increaseUserCounter;
+import static com.githiomi.sentrivault.data.domain.User.increaseUserCounter;
 import static com.githiomi.sentrivault.data.utils.Queries.*;
 import static org.springframework.http.HttpStatus.*;
 

@@ -17,7 +17,7 @@ public class ApplicationConfig {
     CommandLineRunner commandLineRunner() {
 
         return args -> {
-            System.out.format("Schema name: %s", schema);
+            System.out.format("Schema name: %s\n", schema);
         };
 
     }

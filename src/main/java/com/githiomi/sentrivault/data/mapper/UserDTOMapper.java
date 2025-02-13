@@ -1,7 +1,7 @@
 package com.githiomi.sentrivault.data.mapper;
 
 import com.githiomi.sentrivault.data.dto.UserDTO;
-import com.githiomi.sentrivault.data.model.User;
+import com.githiomi.sentrivault.data.domain.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 

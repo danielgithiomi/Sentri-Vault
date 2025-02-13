@@ -1,14 +1,11 @@
 package com.githiomi.sentrivault.controller;
 
-import com.githiomi.sentrivault.data.model.LoginCredentials;
+import com.githiomi.sentrivault.data.records.LoginCredentials;
 import com.githiomi.sentrivault.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -22,6 +19,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/api/v1/auth")
 public class AuthController {
 
