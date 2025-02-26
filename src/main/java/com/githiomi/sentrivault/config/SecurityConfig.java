@@ -3,6 +3,7 @@ package com.githiomi.sentrivault.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -16,7 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -37,14 +37,15 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(withDefaults()) // By default, look for the Bean called "corsConfigurationSource" which is instantiated below
                 .authorizeHttpRequests(
                         req -> {
                             req.requestMatchers("/api/v1/**").authenticated();
                             req.anyRequest().permitAll();
                         })
-                .httpBasic(withDefaults())
-                .formLogin(withDefaults())
+                .formLogin(withDefaults()) // Better form login on browser
+                .httpBasic(withDefaults()) // To allow authentication via Postman
                 .build();
     }
 
@@ -52,7 +53,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowCredentials(true);
-        corsConfig.setAllowedOrigins(List.of("http://localhost:5173"));
+        corsConfig.setAllowedOrigins(List.of("*"));
         corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         corsConfig.setAllowedHeaders(List.of("*", "Authorization", "Cache-Control", "Content-Type", "Accept", "X-Requested-With"));
 

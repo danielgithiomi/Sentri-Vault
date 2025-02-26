@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         // Get the user
         User user = this.userRepository.findUserById(id);
 
-        // Get the user corresponding role
+        // Get the user a corresponding role
         String roleName = this.userRoleRepository.getRoleByUserId(id);
         Role role = Role.valueOf(roleName);
 
