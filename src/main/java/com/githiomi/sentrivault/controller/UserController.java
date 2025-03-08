@@ -16,7 +16,7 @@ import static org.springframework.http.HttpStatus.OK;
 /**
  * Author: dangit
  * Project: SentriVault
- * GitHub: https://github.com/githiomi
+ * GitHub: <a href="https://github.com/danielgithiomi">danielgithiomi</a>
  * Version: 1.0.0
  * Created: 10, Jan 2025
  **/
@@ -41,7 +41,6 @@ public class UserController {
 
     @PostMapping(value = "")
     public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
-        log.warn("User: {}", user);
         return ResponseEntity.status(CREATED.value()).body(this.userService.createUser(user));
     }
 

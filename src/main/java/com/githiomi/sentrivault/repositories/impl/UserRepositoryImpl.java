@@ -93,7 +93,7 @@ public class UserRepositoryImpl implements UserRepository {
             increaseUserCounter();
 
         } catch (DuplicateKeyException e) {
-            throw new DuplicateKeyException("User with ID: " + user.getUserId() + " already exists in the database >>> " + e.getLocalizedMessage());
+            throw new DuplicateKeyException("A user with these credentials already exists in the database");
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(EXPECTATION_FAILED, "The user could not be created as user data does not match database requirements: " + user + " >>> " + e);
         } catch (Exception e) {
@@ -148,7 +148,7 @@ public class UserRepositoryImpl implements UserRepository {
         // Confirm that user exists
         User user = this.findUserById(id);
 
-        // If found then delete
+        // If found, then delete
         MapSqlParameterSource deleteParams = new MapSqlParameterSource().addValue("user_id", user.getUserId());
         jdbcTemplate.update(DELETE_USER_BY_ID_QUERY, deleteParams);
 

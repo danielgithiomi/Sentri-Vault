@@ -1,17 +1,18 @@
 package com.githiomi.sentrivault.data.enums;
 
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Author: dangit
  * Project: SentriVault
- * GitHub: https://github.com/githiomi
+ * GitHub: <a href="https://github.com/danielgithiomi">danielgithiomi</a>
  * Version: 1.0.0
  * Created: 09, Jan 2025
  **/
 
 @Getter
-public enum Role {
+public enum Role implements GrantedAuthority {
 
     SUPER_USER(1, "SUPER_USER"),
     ADMIN(2, "ADMIN"),
@@ -25,4 +26,8 @@ public enum Role {
         this.role = role;
     }
 
+    @Override
+    public String getAuthority() {
+        return role;
+    }
 }

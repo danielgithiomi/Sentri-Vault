@@ -28,7 +28,7 @@ public class AuthController {
     @GetMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody LoginCredentials credentials) {
         return this.authenticationService.authenticate(credentials)
-                ? ResponseEntity.status(OK).body("Login")
+                ? ResponseEntity.status(OK).body(credentials.username() + " you are successfully logged in.")
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 

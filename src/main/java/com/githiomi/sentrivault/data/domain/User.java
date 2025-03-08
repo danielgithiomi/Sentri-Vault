@@ -1,6 +1,8 @@
 package com.githiomi.sentrivault.data.domain;
 
 import com.githiomi.sentrivault.exceptions.CustomException;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import static org.springframework.http.HttpStatus.LENGTH_REQUIRED;
 
 @Data
+@Entity
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +21,7 @@ public class User {
 
     private static int USER_COUNTER = 3;
 
+    @Id
     private String userId;
     private String firstName;
     private String lastName;
